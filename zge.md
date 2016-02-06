@@ -243,6 +243,17 @@ Type "it" for more
 { "_id" : "Middle Eastern", "avgRating" : 4.535714285714286 }
 { "_id" : "Nigerian", "avgRating" : 4.5 }
 ```
+5 typow jedzenia wystepujacych najrzadziej
+
+```sh
+db.restauracje.aggregate([{"$group" : {"_id" : "$type_of_food", "count" : {"$sum" : 1}}},{"$sort": {"count" : 1}}, {"$limit" : 5}])
+
+{ "_id" : "Punjabi", "count" : 1 }
+{ "_id" : "Pasta", "count" : 1 }
+{ "_id" : "Cakes", "count" : 1 }
+{ "_id" : "Spanish", "count" : 1 }
+{ "_id" : "Nigerian", "count" : 1 }
+```
 
 ###Python
 
@@ -273,15 +284,35 @@ for doc in zapytanie:
 from pymongo import MongoClient
 client = MongoClient()
 
-db = client['restaurants']
-collection = db['resturants']
+db = client['restauracje']
+collection = db['resturacje']
 
 pipeline = [
   { "$group": {"_id": "$type_of_food", "avgRating": {"$avg": "$rating"}} },
   { "$sort": {"avgRating": -1 } }
 ]
 
-zapytanie = db.restaurants.aggregate(pipeline)
+zapytanie = db.restauracje.aggregate(pipeline)
+for doc in zapytanie:
+   print(doc)
+ ```
+5 typow jedzenia wystepujacych najrzadziej
+
+```sh
+import pymongo
+from pymongo import MongoClient
+client = MongoClient()
+
+db = client['restauracje']
+collection = db['resturacje']
+
+pipeline = [
+  {"$group" : {"_id" : "$type_of_food", "count" : {"$sum" : 1}}},
+  {"$sort" : {"count" : 1}},
+  {"$limit" : 5}
+]
+
+zapytanie = db.restauracje.aggregate(pipeline)
 for doc in zapytanie:
    print(doc)
    ```
