@@ -134,7 +134,7 @@ db.restauracje.find({type_of_food: "Punjabi"},{_id: 0})
 
 ### AGREGACJE
 
-1. 10 miejscowosci z restauracjami wystepujacych najwiecej razy:
+ 10 miejscowosci z restauracjami wystepujacych najwiecej razy:
 ```sh
 db.restauracje.aggregate([
 ...   {"$group" : {"_id" : "$address line 2", "count" : {"$sum" : 1}}},
@@ -153,7 +153,7 @@ db.restauracje.aggregate([
 ```
 
 
-2. Restauracje o najwyzszej ocenie:
+ Restauracje o najwyzszej ocenie:
 
 ```sh
  db.restauracje.aggregate([ { $group: {_id: "$name", avgRating: {$avg: "$rating"}}}, { $sort: {avgRating: -1 } } ])
@@ -179,7 +179,7 @@ db.restauracje.aggregate([
 { "_id" : "Biggapot Caribbean - Collection Only", "avgRating" : 6 }
 Type "it" for more
 ```
-3. Grupowanie według rankingu:
+ Grupowanie według rankingu:
 
 ```sh
  db.restauracje.aggregate( [{"$group" : {"_id" : "$rating", "count" : {"$sum" : 1}}},{"$sort" : {"count" : -1}}, {"$limit" : 14}  ])
@@ -196,7 +196,7 @@ Type "it" for more
 { "_id" : 2, "count" : 3 }
 { "_id" : 1.5, "count" : 2 }
 ```
-4. srednia ocen wedlug typu jedzenia:
+ srednia ocen wedlug typu jedzenia:
 
 ```sh
  db.restauracje.aggregate([ { $group: {_id: "$type_of_food", avgRating: {$avg: "$rating"}} }, { $sort: {avgRating: -1 } }])
