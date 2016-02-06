@@ -244,7 +244,47 @@ Type "it" for more
 { "_id" : "Nigerian", "avgRating" : 4.5 }
 ```
 
+###Python
 
+10 miejscowosci z restauracjami wystepujacych najwiecej razy
+
+```sh
+import pymongo
+from pymongo import MongoClient
+client = MongoClient()
+
+db = client['restauracje']
+collection = db['resturacje']
+
+pipeline = [
+  {"$group" : {"_id" : "$address line 2", "count" : {"$sum" : 1}}},
+  {"$sort" : {"count" : -1}},
+  {"$limit" : 10}
+]
+
+zapytanie = db.restauracje.aggregate(pipeline)
+for doc in zapytanie:
+   print(doc)
+   ```
+ srednia ocen wedlug typu jedzenia:
+ 
+ ```sh
+   import pymongo
+from pymongo import MongoClient
+client = MongoClient()
+
+db = client['restaurants']
+collection = db['resturants']
+
+pipeline = [
+  { "$group": {"_id": "$type_of_food", "avgRating": {"$avg": "$rating"}} },
+  { "$sort": {"avgRating": -1 } }
+]
+
+zapytanie = db.restaurants.aggregate(pipeline)
+for doc in zapytanie:
+   print(doc)
+   ```
 
 
 
